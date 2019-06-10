@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czb.dao.UserDao">
+    <!-- 定义结果集 -->
+    <!-- id, username, password-->
+    <resultMap type="com.czb.bean.User" id="userResult">
+        <id column="id" property="id"/>
+        <result column="loginid" property="loginid"/>
+        <result column="password" property="password"/>
+        <result column="role" property="role"/>
+        <result column="last_time" property="last_time"/>
+    </resultMap>
+    <select id="getPwdByusername" resultMap="userResult">
+        SELECT * FROM admin WHERE loginid = #{loginid}
+    </select>
+    <!--更新登录时间-->
+    <select id="updateLoginTime" resultMap="userResult">
+        UPDATE admin set last_time = now() WHERE loginid = #{loginid}
+    </select>
+    <!--修改密码-->
+    <select id="updatePassword" resultMap="userResult">
+        UPDATE admin set password = #{newPassword} WHERE loginid = #{loginid}
+    </select>
+</mapper>

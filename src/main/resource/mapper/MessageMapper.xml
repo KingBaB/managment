@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czb.dao.MessageDao">
+    <!-- 定义结果集 -->
+    <!-- id, username, password-->
+    <resultMap type="com.czb.bean.Message" id="messageResult">
+        <id column="id" property="id"/>
+        <result column="create_time" property="create_time"/>
+        <result column="supportSum" property="supportSum"/>
+        <result column="message" property="message"/>
+        <association
+                column="member_id"
+                property="member"
+                select="com.czb.dao.MemberDao.selectMemberById">
+        </association>
+    </resultMap>
+    <!--管理员查询所有评论-->
+    <select id="selectMessage" resultMap="messageResult">
+        select * from (select * from tbl_message order by create_time desc) as m group by m.member_id ;
+    </select>
+    <select id="selectByLimitAndOffset" resultMap="messageResult">
+        SELECT * FROM tbl_message ORDER BY supportSum desc LIMIT #{offset}, #{limit}
+    </select>
+    <!--更新点赞数据-->
+    <select id="addSupportSum" resultMap="messageResult">
+        UPDATE tbl_message set supportSum = supportSum+1 where id=#{id}
+    </select>
+    <!--更新点赞数据-->
+    <select id="subSupportSum" resultMap="messageResult">
+        UPDATE tbl_message set supportSum = supportSum-1 where id=#{id}
+    </select>
+    <select id="selectallMessage" resultMap="messageResult">
+        SELECT * FROM tbl_message ORDER BY supportSum DESC
+    </select>
+    <select id="insertMessage" resultMap="messageResult">
+        INSERT INTO tbl_message (member_id, message, create_time,supportSum) VALUES (
+            #{message.member_id},
+            #{message.message},
+            now(),
+            0
+        )
+    </select>
+    <select id="delMessageById" resultMap="messageResult">
+        DELETE FROM tbl_message WHERE id = #{id}
+    </select>
+
+    <resultMap type="com.czb.bean.Support" id="supportResult">
+        <result column="id" property="message_id"/>
+        <result column="member_id" property="member_id"/>
+        <result column="create_date" property="create_date"/>
+    </resultMap>
+    <select id="selectSupportByMM" resultMap="supportResult">
+        SELECT * FROM tbl_support WHERE member_id=#{member_id} and message_id=#{id}
+    </select>
+    <select id="insertSupportByMM" resultMap="supportResult">
+        INSERT INTO tbl_support (message_id,member_id,create_date) VALUES (#{id},#{member_id},now())
+    </select>
+    <select id="delSupportByMM" resultMap="supportResult">
+        DELETE FROM tbl_support WHERE member_id=#{member_id} and message_id=#{id}
+    </select>
+</mapper>

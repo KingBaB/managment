@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czb.dao.CoachDao">
+    <!-- 定义结果集 -->
+    <!-- id, username, password-->
+    <resultMap type="com.czb.bean.Coach" id="coachResult">
+        <result column="coach_id" property="coach_id"/>
+        <result column="coach_name" property="coach_name"/>
+        <result column="password" property="password"/>
+        <result column="sex" property="sex"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="address" property="address"/>
+        <result column="create_date" property="create_date"/>
+        <result column="update_date" property="update_date"/>
+        <result column="birthday" property="birthday"/>
+        <result column="pic" property="pic"/>
+        <result column="last_time" property="last_time"/>
+    </resultMap>
+    <!--管理员查询所有教练信息-->
+    <select id="selectByLimitAndOffset" resultMap="coachResult">
+        SELECT * FROM tbl_coach ORDER BY coach_id LIMIT #{offset}, #{limit}
+    </select>
+    <select id="deleteCoachById" resultMap="coachResult">
+        DELETE FROM tbl_coach WHERE coach_id = #{coach_id}
+    </select>
+    <!--通过id修改教练信息 -->
+    <select id="updateCoachById" resultMap="coachResult">
+        UPDATE tbl_coach <set>
+                <if test="coach.address != null and coach.address != ''">
+                    address = #{coach.address, jdbcType = VARCHAR},
+                </if>
+                <if test="coach.birthday != null and coach.birthday != ''">
+                    birthday = #{coach.birthday, jdbcType = VARCHAR},
+                </if>
+                <if test="coach.phone != null and coach.phone != ''">
+                    phone = #{coach.phone, jdbcType = VARCHAR},
+                </if>
+                <if test="coach.email != null and coach.email != ''">
+                    email = #{coach.email, jdbcType = VARCHAR},
+                </if>
+                <if test="coach.sex != null and coach.sex != ''">
+                    sex = #{coach.sex, jdbcType = VARCHAR},
+                </if>
+                <if test="coach.update_date != null and coach.update_date != ''">
+                    update_date = #{coach.update_date, jdbcType = VARCHAR},
+                </if>
+                <if test="coach.pic != null and coach.pic != ''">
+                    pic = #{coach.pic, jdbcType = VARCHAR}
+                </if>
+            </set>
+        WHERE coach_id = #{coach_id}
+    </select>
+    <!--查询新增的教练id是否存在-->
+    <select id="selectCoachById" resultMap="coachResult" parameterType="String">
+        SELECT * FROM tbl_coach WHERE coach_id = #{coach_id}
+    </select>
+    <!--新增教练信息-->
+    <select id="insertCoach" resultMap="coachResult">
+        INSERT INTO tbl_coach
+        (coach_id, coach_name, password, sex, birthday, phone, email, address, create_date, update_date, pic)
+        VALUES (
+        #{coach.coach_id, jdbcType = VARCHAR},
+        #{coach.coach_name, jdbcType = VARCHAR},
+        #{coach.password, jdbcType = VARCHAR},
+        #{coach.sex, jdbcType = VARCHAR},
+        #{coach.birthday, jdbcType = VARCHAR},
+        #{coach.phone, jdbcType = VARCHAR},
+        #{coach.email, jdbcType = VARCHAR},
+        #{coach.address, jdbcType = VARCHAR},
+        #{coach.create_date, jdbcType = VARCHAR},
+        #{coach.update_date, jdbcType = VARCHAR},
+        #{coach.pic, jdbcType = VARCHAR}
+        )
+    </select>
+    <insert id="insertLogin">
+        insert into admin (loginid, password) values (
+        #{member.member_id, jdbcType = VARCHAR},
+        #{member.password, jdbcType = VARCHAR}
+        '教练'
+        )
+    </insert>
+    <!--获取所有教练id-->
+    <select id="selectCoach_id" resultMap="coachResult">
+        SELECT * FROM tbl_coach order by coach_id
+    </select>
+    <!--性别统计-->
+    <select id="selectSexCount" resultMap="coachResult">
+        select
+        COUNT(case when coach.sex = 'm' then sex end  ) as maleCount,
+        COUNT(case when coach.sex = 'f' then sex end ) as femaleCount,
+        COUNT(case when coach.sex IN('m','f') then sex end) as allCount
+        from  tbl_coach as coach;
+    </select>
+    <!--年龄统计-->
+    <select id="selectAgeCount" resultMap="coachResult">
+        SELECT
+        count(case when '2010-01-01' &lt;= coach.birthday then coach.birthday end) as age1,
+        count(case when '2000-01-01' &lt;= coach.birthday and coach.birthday &lt; '2010-01-01' then coach.birthday end) as age0,
+        count(case when '1990-01-01' &lt;= coach.birthday and coach.birthday &lt; '2000-01-01' then coach.birthday end) as age9,
+        count(case when '1980-01-01' &lt;= coach.birthday and coach.birthday &lt; '1990-01-01' then coach.birthday end) as age8,
+        count(case when '1970-01-01' &lt;= coach.birthday and coach.birthday &lt; '1980-01-01' then coach.birthday end) as age7,
+        count(case when coach.birthday &lt; '1970-01-01' then coach.birthday end) as age6,
+        count(case when coach.birthday is not null then birthday end) as age5
+        FROM tbl_coach as coach;
+    </select>
+</mapper>

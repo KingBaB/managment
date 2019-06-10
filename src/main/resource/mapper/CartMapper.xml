@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czb.dao.CartDao">
+    <!-- 定义结果集 -->
+    <!-- id, username, password-->
+    <resultMap type="com.czb.bean.Cart" id="cartResult">
+        <id column="id" property="id"/>
+        <result column="memberId" property="member_id"/>
+        <result column="courseId" property="course_id"/>
+        <association
+                column="course_id"
+                property="course"
+                select="com.czb.dao.CourseDao.selectCourseById">
+        </association>
+        <association
+                column="member_id"
+                property="member"
+                select="com.czb.dao.MemberDao.selectMemberById">
+        </association>
+    </resultMap>
+    <!--会员购买的课程信息-->
+    <select id="selectCartByMember_id" resultMap="cartResult">
+        SELECT * FROM tbl_cart where member_id = ${member_id} ORDER BY id LIMIT #{offset}, #{limit}
+    </select>
+    <!--会员购买-->
+    <select id="insertCart" resultMap="cartResult">
+        INSERT INTO tbl_cart (course_id, member_id) VALUES (#{cart.course_id}, #{cart.member_id})
+    </select>
+    <!--删除购物车-->
+    <select id="delCart" resultMap="cartResult">
+        DELETE FROM tbl_cart WHERE id = #{id}
+    </select>
+    <!--查找会员是否添加过购物车-->
+    <select id="selectCartById" resultMap="cartResult">
+        SELECT * FROM tbl_cart WHERE course_id=#{cart.course_id} and member_id=#{cart.member_id}
+    </select>
+</mapper>

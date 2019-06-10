@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czb.dao.EquipmentDao">
+    <!-- 定义结果集 -->
+    <!-- id, username, password-->
+    <resultMap type="com.czb.bean.Equipment" id="equipmentResult">
+        <id column="id" property="id"/>
+        <result column="equipment_id" property="equipment_id"/>
+        <result column="equipment_name" property="equipment_name"/>
+        <result column="introduce" property="introduce"/>
+        <result column="create_date" property="create_date"/>
+        <result column="update_date" property="update_date"/>
+        <result column="pic" property="pic"/>
+        <result column="number" property="number"/>
+    </resultMap>
+    <!--管理员查询所有课程信息-->
+    <select id="selectByLimitAndOffset" resultMap="equipmentResult">
+        SELECT * FROM tbl_equipment ORDER BY id LIMIT #{offset}, #{limit}
+    </select>
+    <select id="deleteEquipmentById" resultMap="equipmentResult">
+        DELETE FROM tbl_equipment WHERE equipment_id = #{equipment_id}
+    </select>
+    <!--通过id修改课程信息 -->
+    <select id="updateEquipmentById" resultMap="equipmentResult">
+        UPDATE tbl_equipment <set>
+        <if test="equipment.equipment_name != null and equipment.equipment_name != ''">
+            equipment_name = #{equipment.equipment_name, jdbcType = VARCHAR},
+        </if>
+        <if test="equipment.pic != null and equipment.pic != ''">
+            pic = #{equipment.pic, jdbcType = VARCHAR},
+        </if>
+        <if test="equipment.number != null and equipment.number != ''">
+            number = #{equipment.number, jdbcType = VARCHAR},
+        </if>
+        <if test="equipment.update_date != null and equipment.update_date != ''">
+            update_date = #{equipment.update_date, jdbcType = VARCHAR},
+        </if><if test="equipment.introduce != null and equipment.introduce != ''">
+            introduce = #{equipment.introduce, jdbcType = VARCHAR}
+        </if>
+    </set>
+        WHERE equipment_id = #{equipment_id}
+    </select>
+    <!--查询新增的课程id是否存在-->
+    <select id="selectEquipmentById" resultMap="equipmentResult" parameterType="String">
+        SELECT * FROM tbl_equipment WHERE equipment_id = #{equipment_id}
+    </select>
+    <!--新增课程信息-->
+    <select id="insertEquipment" resultMap="equipmentResult">
+        INSERT INTO tbl_equipment
+        (equipment_id, equipment_name, pic, number, create_date, update_date, introduce)
+        VALUES (
+        #{equipment.equipment_id, jdbcType = VARCHAR},
+        #{equipment.equipment_name, jdbcType = VARCHAR},
+        #{equipment.pic, jdbcType = VARCHAR},
+        #{equipment.number, jdbcType = VARCHAR},
+        #{equipment.create_date, jdbcType = VARCHAR},
+        #{equipment.update_date, jdbcType = VARCHAR},
+        #{equipment.introduce, jdbcType = VARCHAR}
+        )
+    </select>
+    <!--获取所有课程id-->
+    <select id="selectEquipment_id" resultMap="equipmentResult">
+        SELECT * FROM tbl_equipment order by equipment_id
+    </select>
+    <select id="selectEquipment" resultMap="equipmentResult">
+        select * from tbl_equipment order by update_date desc;
+    </select>
+</mapper>

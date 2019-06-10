@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czb.dao.GymDao">
+    <!-- 定义结果集 -->
+    <!-- id, username, password-->
+    <resultMap type="com.czb.bean.Gym" id="gymResult">
+        <id column="gym_id" property="id"/>
+        <result column="gym_name" property="gym_name"/>
+        <result column="introduce" property="introduce"/>
+        <result column="create_date" property="create_date"/>
+        <result column="update_date" property="update_date"/>
+        <result column="pic" property="pic"/>
+        <result column="subjection" property="subjection"/>
+        <result column="manager" property="manager"/>
+        <result column="address" property="address"/>
+        <result column="area" property="area"/>
+        <result column="phone" property="phone"/>
+    </resultMap>
+    <!--管理员查询所有健身房信息-->
+    <select id="selectByLimitAndOffset" resultMap="gymResult">
+        SELECT * FROM tbl_gym ORDER BY id LIMIT #{offset}, #{limit}
+    </select>
+    <select id="deleteGymById" resultMap="gymResult">
+        DELETE FROM tbl_gym WHERE id = #{gym_id}
+    </select>
+    <!--通过id修改健身房信息 -->
+    <select id="updateGymById" resultMap="gymResult">
+        UPDATE tbl_gym <set>
+        <if test="gym.gym_name != null and gym.gym_name != ''">
+            gym_name = #{gym.gym_name, jdbcType = VARCHAR},
+        </if>
+        <if test="gym.subjection != null and gym.subjection != ''">
+            subjection = #{gym.subjection, jdbcType = VARCHAR},
+        </if>
+        <if test="gym.manager != null and gym.manager != ''">
+            manager = #{gym.manager, jdbcType = VARCHAR},
+        </if>
+        <if test="gym.pic != null and gym.pic != ''">
+            pic = #{gym.pic, jdbcType = VARCHAR},
+        </if>
+        <if test="gym.address != null and gym.address != ''">
+            address = #{gym.address, jdbcType = VARCHAR},
+        </if>
+        <if test="gym.phone != null and gym.phone != ''">
+            phone = #{gym.phone, jdbcType = VARCHAR},
+        </if>
+        <if test="gym.area != null and gym.area != ''">
+            area = #{gym.area, jdbcType = VARCHAR},
+        </if>
+        <if test="gym.update_date != null and gym.update_date != ''">
+            update_date = #{gym.update_date, jdbcType = VARCHAR},
+        </if>
+        <if test="gym.introduce != null and gym.introduce != ''">
+            introduce = #{gym.introduce, jdbcType = VARCHAR}
+        </if>
+    </set>
+        WHERE id = #{gym_id}
+    </select>
+    <!--查询新增的健身房id是否存在-->
+    <select id="selectGymById" resultMap="gymResult" parameterType="String">
+        SELECT * FROM tbl_gym WHERE id = #{gym_id}
+    </select>
+    <!--新增健身房信息-->
+    <select id="insertGym" resultMap="gymResult">
+        INSERT INTO tbl_gym
+        (gym_name, subjection, manager, pic, address, phone, area, create_date, update_date, introduce)
+        VALUES (
+        #{gym.gym_name, jdbcType = VARCHAR},
+        #{gym.subjection, jdbcType = VARCHAR},
+        #{gym.manager, jdbcType = VARCHAR},
+        #{gym.pic, jdbcType = VARCHAR},
+        #{gym.address, jdbcType = VARCHAR},
+        #{gym.phone, jdbcType = VARCHAR},
+        #{gym.area, jdbcType = VARCHAR},
+        #{gym.create_date, jdbcType = VARCHAR},
+        #{gym.update_date, jdbcType = VARCHAR},
+        #{gym.introduce, jdbcType = VARCHAR}
+        )
+    </select>
+    <!--获取所有健身房id-->
+    <select id="selectGym_id" resultMap="gymResult">
+        SELECT * FROM tbl_gym order by id
+    </select>
+</mapper>

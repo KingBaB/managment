@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czb.dao.CollectionsDao">
+    <!-- 定义结果集 -->
+    <resultMap type="com.czb.bean.Collections" id="collectionsResult">
+        <id column="id" property="id"/>
+        <result column="memberId" property="member_id"/>
+        <association
+                column="course_id"
+                property="course"
+                select="com.czb.dao.CourseDao.selectCourseById">
+        </association>
+        <association
+                column="member_id"
+                property="member"
+                select="com.czb.dao.MemberDao.selectMemberById">
+        </association>
+    </resultMap>
+    <insert id="insertCollections" parameterType="com.czb.bean.Collections" useGeneratedKeys="true">
+        INSERT INTO tbl_collections
+        (course_id, member_id)
+        VALUES (
+            #{collections.course_id, jdbcType = VARCHAR},
+            #{collections.member_id, jdbcType = VARCHAR}
+        )
+    </insert>
+    <!--判断会员是否以收藏-->
+    <select id="selectCollectionsById" resultMap="collectionsResult">
+        SELECT * FROM tbl_collections WHERE course_id=#{collections.course_id} and member_id=#{collections.member_id}
+    </select>
+    <select id="selectCollections" resultMap="collectionsResult">
+        SELECT * FROM tbl_collections WHERE course_id=#{course_id}
+    </select>
+    <select id="selectByLimitAndOffset" resultMap="collectionsResult">
+        SELECT * FROM tbl_collections ORDER BY id LIMIT #{offset}, #{limit}
+    </select>
+    <!--会员收藏的课程信息-->
+    <select id="selectCartByMember_id" resultMap="collectionsResult">
+        SELECT * FROM tbl_collections where member_id = ${member_id} ORDER BY id LIMIT #{offset}, #{limit}
+    </select>
+    <!--删除收藏的课程-->
+    <select id="delCollections" resultMap="collectionsResult">
+        DELETE FROM tbl_collections WHERE id=#{id}
+    </select>
+</mapper>

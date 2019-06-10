@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czb.dao.CourseDao">
+    <!-- 定义结果集 -->
+    <!-- id, username, password-->
+    <resultMap type="com.czb.bean.Course" id="courseResult">
+        <result column="course_id" property="course_id"/>
+        <result column="course_name" property="course_name"/>
+        <result column="introduce" property="introduce"/>
+        <result column="create_date" property="create_date"/>
+        <result column="update_date" property="update_date"/>
+        <result column="pic" property="pic"/>
+        <result column="price" property="price"/>
+        <result column="type" property="type"/>
+        <result column="class_time" property="class_time"/>
+        <association
+                column="coach_id"
+                property="coach"
+                select="com.czb.dao.CoachDao.selectCoachById">
+        </association>
+    </resultMap>
+    <!--管理员查询所有课程信息-->
+    <select id="selectByLimitAndOffset" resultMap="courseResult">
+        SELECT * FROM tbl_course ORDER BY course_id LIMIT #{offset}, #{limit}
+    </select>
+    <select id="deleteCourseById" resultMap="courseResult">
+        DELETE FROM tbl_course WHERE course_id = #{course_id}
+    </select>
+    <!--通过id修改课程信息 -->
+    <select id="updateCourseById" resultMap="courseResult">
+        UPDATE tbl_course <set>
+            <if test="course.course_name != null and course.course_name != ''">
+                course_name = #{course.course_name, jdbcType = VARCHAR},
+            </if>
+            <if test="course.coach_id != null and course.coach_id != ''">
+                coach_id = #{course.coach_id, jdbcType = VARCHAR},
+            </if>
+            <if test="course.introduce != null and course.introduce != ''">
+                introduce = #{course.introduce, jdbcType = VARCHAR},
+            </if>
+            <if test="course.update_date != null and course.update_date != ''">
+                update_date = #{course.update_date, jdbcType = VARCHAR},
+            </if>
+            <if test="course.pic != null and course.pic != ''">
+                pic = #{course.pic, jdbcType = VARCHAR},
+            </if>
+            <if test="course.price != null and course.price != ''">
+                price = #{course.price, jdbcType = VARCHAR},
+            </if>
+            <if test="course.type != null and course.type != ''">
+                type = #{course.type, jdbcType = VARCHAR}
+            </if>
+        </set>
+            WHERE course_id = #{course_id}
+    </select>
+    <!--查询新增的课程id是否存在-->
+    <select id="selectCourseById" resultMap="courseResult" parameterType="String">
+        SELECT * FROM tbl_course WHERE course_id = #{course_id}
+    </select>
+    <!--新增课程信息-->
+    <select id="insertCourse" resultMap="courseResult">
+        INSERT INTO tbl_course
+        (course_name, coach_id, introduce, create_date, update_date, pic, price, type)
+        VALUES (
+                #{course.course_name, jdbcType = VARCHAR},
+                #{course.coach_id, jdbcType = VARCHAR},
+                #{course.introduce, jdbcType = VARCHAR},
+                #{course.create_date, jdbcType = VARCHAR},
+                #{course.update_date, jdbcType = VARCHAR},
+                #{course.pic, jdbcType = VARCHAR},
+                #{course.price, jdbcType = VARCHAR},
+                #{course.type, jdbcType = VARCHAR}
+                )
+    </select>
+    <!--获取所有课程id-->
+    <select id="selectCourse_id" resultMap="courseResult">
+        SELECT * FROM tbl_course order by course_id
+    </select>
+    <select id="selectCourse" resultMap="courseResult">
+        select * from tbl_course order by update_date desc;
+    </select>
+</mapper>

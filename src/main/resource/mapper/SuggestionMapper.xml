@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czb.dao.SuggestionDao">
+    <!-- 定义结果集 -->
+    <!-- id, username, password-->
+    <resultMap type="com.czb.bean.Suggestion" id="suggestionResult">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="suggestion" property="suggestion"/>
+        <result column="create_date" property="create_date"/>
+    </resultMap>
+    <!--建议-->
+    <select id="insertSuggestion" resultMap="suggestionResult">
+        INSERT INTO tbl_suggestion (name,email,suggestion,create_date) VALUES (#{suggestion.name}, #{suggestion.email}, #{suggestion.suggestion},now())
+    </select>
+    <!--管理员查询所有信息-->
+    <select id="selectByLimitAndOffset" resultMap="suggestionResult">
+        SELECT * FROM tbl_suggestion ORDER BY id LIMIT #{offset}, #{limit}
+    </select>
+    <!--通过id删除信息 -->
+    <select id="deleteSuggestionById" resultMap="suggestionResult">
+        DELETE FROM tbl_suggestion WHERE id = #{id}
+    </select>
+</mapper>

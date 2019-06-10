@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czb.dao.OrdersDao">
+    <!-- 定义结果集 -->
+    <!-- id, username, password-->
+    <resultMap type="com.czb.bean.Orders" id="ordersResult">
+        <id column="id" property="id"/>
+        <result column="orders_id" property="orders_id"/>
+        <result column="courseId" property="course_id"/>
+        <result column="memberId" property="member_id"/>
+        <association
+                column="course_id"
+                property="course"
+                select="com.czb.dao.CourseDao.selectCourseById">
+        </association>
+        <association
+                column="member_id"
+                property="member"
+                select="com.czb.dao.MemberDao.selectMemberById">
+        </association>
+    </resultMap>
+    <!--会员订单信息-->
+    <select id="selectOrdersByMember_id" resultMap="ordersResult">
+        SELECT * FROM tbl_orders where member_id = ${member_id} ORDER BY id LIMIT #{offset}, #{limit}
+    </select>
+    <!--会员购买-->
+    <select id="insertOrders" resultMap="ordersResult">
+        INSERT INTO tbl_orders (course_id, member_id, orders_id) VALUES (#{orders.course_id}, #{orders.member_id}, #{orders.orders_id})
+    </select>
+    <!--&lt;!&ndash;删除购物车&ndash;&gt;-->
+    <!--<select id="delOrders" resultMap="cartResult">-->
+        <!--DELETE FROM tbl_cart WHERE id = #{id}-->
+    <!--</select>-->
+    <!--查找会员是否添加过购物车-->
+    <select id="selectOrdersById" resultMap="ordersResult">
+        SELECT * FROM tbl_orders WHERE course_id=#{orders.course_id} and member_id=#{orders.member_id}
+    </select>
+</mapper>

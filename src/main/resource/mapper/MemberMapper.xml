@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czb.dao.MemberDao">
+    <!-- 定义结果集 -->
+    <!-- id, username, password-->
+    <resultMap type="com.czb.bean.Member" id="memberResult">
+        <id column="id" property="id"/>
+        <result column="member_id" property="member_id"/>
+        <result column="member_name" property="member_name"/>
+        <result column="password" property="password"/>
+        <result column="sex" property="sex"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="address" property="address"/>
+        <result column="create_date" property="create_date"/>
+        <result column="update_date" property="update_date"/>
+        <result column="birthday" property="birthday"/>
+        <result column="pic" property="pic"/>
+        <result column="last_time" property="last_time"/>
+    </resultMap>
+    <!--管理员查询所有会员信息-->
+    <select id="selectByLimitAndOffset" resultMap="memberResult">
+        SELECT * FROM tbl_member ORDER BY id LIMIT #{offset}, #{limit}
+    </select>
+    <!--查询总页数-->
+    <!--<select id="countMembers" resultMap="memberResult" parameterType="int">-->
+        <!--SELECT count(*) FROM tbl_member-->
+    <!--</select>-->
+    <!--通过id删除会员信息 -->
+    <select id="deleteMemberById" resultMap="memberResult">
+        DELETE FROM tbl_member WHERE member_id = #{member_id}
+    </select>
+    <!--通过id修改会员信息 -->
+    <select id="updateMemberById" resultMap="memberResult">
+        UPDATE tbl_member <set>
+                <if test="member.member_name != null and member.member_name != ''">
+                    member_name = #{member.member_name, jdbcType = VARCHAR},
+                </if>
+                <if test="member.address != null and member.address != ''">
+                    address = #{member.address, jdbcType = VARCHAR},
+                </if>
+                <if test="member.birthday != null and member.birthday != ''">
+                    birthday = #{member.birthday, jdbcType = VARCHAR},
+                </if>
+                <if test="member.phone != null and member.phone != ''">
+                    phone = #{member.phone, jdbcType = VARCHAR},
+                </if>
+                <if test="member.email != null and member.email != ''">
+                    email = #{member.email, jdbcType = VARCHAR},
+                </if>
+                <if test="member.sex != null and member.sex != ''">
+                    sex = #{member.sex, jdbcType = VARCHAR},
+                </if>
+                <if test="member.update_date != null and member.update_date != ''">
+                    update_date = #{member.update_date, jdbcType = VARCHAR},
+                </if>
+                <if test="member.pic != null and member.pic != ''">
+                    pic = #{member.pic, jdbcType = VARCHAR}
+                </if>
+          </set>
+            WHERE member_id = #{member_id}
+    </select>
+    <!--查询新增的会员id是否存在-->
+    <select id="selectMemberById" resultMap="memberResult" parameterType="String">
+        SELECT * FROM tbl_member WHERE member_id = #{member_id}
+    </select>
+    <!--新增会员信息-->
+    <select id="insertMember" resultMap="memberResult">
+        INSERT INTO tbl_member
+            (member_id, member_name, password, sex, birthday, phone, email, address, create_date, update_date, pic)
+        VALUES (
+            #{member.member_id, jdbcType = VARCHAR},
+            #{member.member_name, jdbcType = VARCHAR},
+            #{member.password, jdbcType = VARCHAR},
+            #{member.sex, jdbcType = VARCHAR},
+            #{member.birthday, jdbcType = VARCHAR},
+            #{member.phone, jdbcType = VARCHAR},
+            #{member.email, jdbcType = VARCHAR},
+            #{member.address, jdbcType = VARCHAR},
+            #{member.create_date, jdbcType = VARCHAR},
+            #{member.update_date, jdbcType = VARCHAR},
+            #{member.pic, jdbcType = VARCHAR}
+        )
+    </select>
+    <insert id="insertLogin">
+        insert into admin (loginid, password, role) values (
+        #{member.member_id, jdbcType = VARCHAR},
+        #{member.password, jdbcType = VARCHAR},
+        '普通用户'
+        )
+    </insert>
+    <!--获取所有会员id-->
+    <select id="selectMember_id" resultMap="memberResult">
+        SELECT * FROM tbl_member order by member_id
+    </select>
+    <!--性别统计-->
+    <select id="selectSexCount" resultMap="memberResult">
+        select
+            COUNT(case when mem.sex = 'm' then sex end  ) as maleCount,
+            COUNT(case when mem.sex = 'f' then sex end ) as femaleCount,
+            COUNT(case when mem.sex IN('m','f') then sex end) as allCount
+        from  tbl_member as mem;
+    </select>
+    <!--年龄统计-->
+    <select id="selectAgeCount" resultMap="memberResult">
+        SELECT
+            count(case when '2010-01-01' &lt;= mem.birthday then sex end) as age1,
+            count(case when '2000-01-01' &lt;= mem.birthday and mem.birthday &lt; '2010-01-01' then mem.birthday end) as age0,
+            count(case when '1990-01-01' &lt;= mem.birthday and mem.birthday &lt; '2000-01-01' then mem.birthday end) as age9,
+            count(case when '1980-01-01' &lt;= mem.birthday and mem.birthday &lt; '1990-01-01' then mem.birthday end) as age8,
+            count(case when '1970-01-01' &lt;= mem.birthday and mem.birthday &lt; '1980-01-01' then mem.birthday end) as age7,
+            count(case when mem.birthday &lt; '1970-01-01' then mem.birthday end) as age6,
+            count(case when mem.birthday is not null then birthday end) as age5
+        FROM tbl_member as mem;
+    </select>
+    <!--修改密码-->
+    <select id="updatePassword" resultMap="memberResult">
+        UPDATE tbl_member set password = #{newPassword} WHERE member_id = #{loginid}
+    </select>
+</mapper>
