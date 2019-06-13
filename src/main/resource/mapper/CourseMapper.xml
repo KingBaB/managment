@@ -57,6 +57,10 @@
     <select id="selectCourseById" resultMap="courseResult" parameterType="String">
         SELECT * FROM tbl_course WHERE course_id = #{course_id}
     </select>
+    <!--根据教练id查询课程-->
+    <select id="selectCourseByCoach_Id" resultMap="courseResult">
+        SELECT * FROM tbl_course WHERE coach_id = #{coach_id}
+    </select>
     <!--新增课程信息-->
     <select id="insertCourse" resultMap="courseResult">
         INSERT INTO tbl_course
@@ -79,4 +83,10 @@
     <select id="selectCourse" resultMap="courseResult">
         select * from tbl_course order by update_date desc;
     </select>
+    <select id="selectCourseType" resultMap="courseResult">
+        select count(*) sum,type from tbl_course group by type;
+    </select>
+    <!--<select id="selectCourseTypeSum" resultMap="courseResult">-->
+        <!--select count(*) sum,type from tbl_course group by type;-->
+    <!--</select>-->
 </mapper>

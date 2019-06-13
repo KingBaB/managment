@@ -35,6 +35,14 @@ public class OrdersServiceImpl implements OrdersService{
     public Orders findOrdersById(Orders orders) throws Exception {
         return ordersDao.selectOrdersById(orders);
     }
+    @Override
+    public List<Orders> findOrdersByMember_Id(String member_id) throws Exception {
+        return ordersDao.selectOrdersByMember_Id(member_id);
+    }
+    @Override
+    public List<Orders> findOrderList() throws Exception {
+        return ordersDao.selectOrderList();
+    }
 
     @Override
     public List<Orders> getOrdersByMember_id(String member_id, Integer offset, Integer limit) throws Exception {

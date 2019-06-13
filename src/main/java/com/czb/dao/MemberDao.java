@@ -36,6 +36,8 @@ public interface MemberDao {
      * 通过会员id查找信息，或者判断会员id是否存在
      */
     Member selectMemberById(@Param("member_id") String member_id);
+
+    List<Member> selectMemberByMember_Id(@Param("member_id") String member_id);
     /**
      * 新增会员信息
      */

@@ -22,6 +22,7 @@ public class Course {
 
     private Coach coach;
     private String class_time;
+    private String sum;
 
     public int getCourse_id() {
         return course_id;
@@ -117,5 +118,13 @@ public class Course {
 
     public void setClass_time(String class_time) {
         this.class_time = class_time;
+    }
+
+    public String getSum() {
+        return sum;
+    }
+
+    public void setSum(String sum) {
+        this.sum = sum;
     }
 }

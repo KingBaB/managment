@@ -237,6 +237,23 @@ public class CourseController {
         }
     }
     /**
+     * 根据教练id查询课程信息
+     */
+    @RequestMapping(value = "/getInfoByCoach_id", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonMsg getInfoByCoach_id(@RequestParam("coach_id") String coach_id) throws Exception{
+        List<Course> courseList = null;
+        if (!"".equals(coach_id)){
+            courseList = courseService.findCourseByCoach_Id(coach_id);
+        }
+        if (courseList != null){
+//            System.out.println(course.getPic());
+            return JsonMsg.success().addInfo("courseList",courseList);
+        }else {
+            return JsonMsg.fail();
+        }
+    }
+    /**
      * 获取课程信息
      */
     @RequestMapping(value = "/getCourse", method = RequestMethod.GET)
@@ -244,6 +261,15 @@ public class CourseController {
     public JsonMsg getCourse() throws Exception{
         List<Course> courseList = courseService.getCourse();
         return JsonMsg.success().addInfo("courseList", courseList);
+    }
+    /**
+     * 获取课程类别
+     */
+    @RequestMapping(value = "/getCourseType", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonMsg getCourseType() throws Exception{
+        List<Course> courseTypeList = courseService.getCourseType();
+        return JsonMsg.success().addInfo("courseTypeList", courseTypeList);
     }
     /*
          * 课程查询

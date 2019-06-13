@@ -64,6 +64,9 @@
     <select id="selectMemberById" resultMap="memberResult" parameterType="String">
         SELECT * FROM tbl_member WHERE member_id = #{member_id}
     </select>
+    <select id="selectMemberByMember_Id" resultMap="memberResult">
+        SELECT * FROM tbl_member WHERE member_id = #{member_id}
+    </select>
     <!--新增会员信息-->
     <select id="insertMember" resultMap="memberResult">
         INSERT INTO tbl_member

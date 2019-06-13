@@ -16,6 +16,10 @@ public interface OrdersService {
 
     public Orders findOrdersById(Orders orders) throws Exception;
 
+    public List<Orders> findOrdersByMember_Id(String member_id) throws Exception;
+
+    public List<Orders> findOrderList() throws Exception;
+
     public List<Orders> getOrdersByMember_id(String member_id, Integer offset, Integer limit) throws Exception;
 
     public Integer getOrdersCount(String member_id) throws Exception;

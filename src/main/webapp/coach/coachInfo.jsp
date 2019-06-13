@@ -69,6 +69,11 @@
                                         </tr>
                                         <tr><td>&nbsp;</td></tr>
                                         <tr>
+                                            <td>课程名单：</td>
+                                            <td><span class="coach_courseList"></span></td>
+                                        </tr>
+                                        <tr><td>&nbsp;</td></tr>
+                                        <tr>
                                             <td>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</td>
                                             <td><span class="coach_sex"></span></td>
                                         </tr>
@@ -147,6 +152,24 @@
                     $("#pic").attr("src", ".."+coach.pic);
                     $("#pic").attr("alt",""+coach.coach_name);
                     $("#selfInfo").text("教练【"+coach.coach_name+"】的详细信息");
+                    $.ajax({
+                        url: "/course/getInfoByCoach_id",
+                        type: "GET",
+                        data: "coach_id="+coach_id,
+                        success:function (result) {
+                            if(result.code==100){
+                                var str = "";
+                                $.each(result.extendInfo.courseList, function () {
+                                    if(str == ""){
+                                        str = "<span id=\"\"><a href=\"/course/courseInfo.jsp?course_id="+this.course_id+"\">"+this.course_name+"</a></span>";
+                                    }else {
+                                        str = str+ "，" + "<span id=\"\"><a href=\"/course/courseInfo.jsp?course_id="+this.course_id+"\">"+this.course_name+"</a></span>";
+                                    }
+                                });
+                                $(".coach_courseList").html(str);
+                            }
+                        }
+                    });
                     $(document).attr("title",coach.coach_name);
                 }
             }

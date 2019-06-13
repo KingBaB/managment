@@ -35,4 +35,10 @@
     <select id="selectOrdersById" resultMap="ordersResult">
         SELECT * FROM tbl_orders WHERE course_id=#{orders.course_id} and member_id=#{orders.member_id}
     </select>
+    <select id="selectOrdersByMember_Id" resultMap="ordersResult">
+        SELECT * FROM tbl_orders WHERE member_id=#{member_id}
+    </select>
+    <select id="selectOrderList" resultMap="ordersResult">
+        SELECT * FROM tbl_orders
+    </select>
 </mapper>

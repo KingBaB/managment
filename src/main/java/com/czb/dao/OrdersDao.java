@@ -18,6 +18,10 @@ public interface OrdersDao {
 
     Orders selectOrdersById(@Param("orders") Orders orders);
 
+    List<Orders> selectOrdersByMember_Id(@Param("member_id") String member_id);
+
+    List<Orders> selectOrderList();
+
     List<Orders> selectOrdersByMember_id(@Param("member_id") String member_id, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
     @Select({"select count(*) from tbl_orders where member_id = ${member_id}"})

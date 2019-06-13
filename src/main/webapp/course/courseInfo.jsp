@@ -132,7 +132,8 @@
                     var course = result.extendInfo.course;
                     $(".course_id").text(course.course_id);
                     $(".course_name").text(course.course_name);
-                    $(".coach_id").text(course.coach.coach_name);
+                    var coach_name = "<span id=\"\"><a href=\"/coach/coachInfo.jsp?coach_id="+course.coach.coach_id+"\">"+course.coach.coach_name+"</a></span>";
+                    $(".coach_id").html(coach_name);
                     $(".course_type").text(course.type);
                     $(".course_price").text(course.price);
                     $(".course_create").text(course.create_date);

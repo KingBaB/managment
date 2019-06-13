@@ -22,6 +22,8 @@ public interface MemberService {
 
     public Member findMemberById(String member_id) throws Exception;
 
+    public List<Member> findMemberByMember_Id(String member_id) throws Exception;
+
     public Integer addMember(Member member) throws Exception;
 
     public List<Member> getMember_id() throws Exception;

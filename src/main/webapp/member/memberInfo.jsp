@@ -68,6 +68,11 @@
                                         </tr>
                                         <tr><td>&nbsp;</td></tr>
                                         <tr>
+                                            <td>报名课程：</td>
+                                            <td><span class="member_course"></span></td>
+                                        </tr>
+                                        <tr><td>&nbsp;</td></tr>
+                                        <tr>
                                             <td>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</td>
                                             <td><span class="member_sex"></span></td>
                                         </tr>
@@ -152,6 +157,24 @@
                     $("#pic").attr("src", ".."+member.pic);
                     $("#pic").attr("alt",""+member.member_name);
                     $("#selfInfo").text("会员【"+member.member_name+"】的详细信息");
+                    $.ajax({
+                        url: "/orders/getOrderListByMember_id",
+                        type: "GET",
+                        data: "member_id="+member_id,
+                        success:function (result) {
+                            if(result.code==100){
+                                var str = "";
+                                $.each(result.extendInfo.ordersList, function () {
+                                    if(str == ""){
+                                        str = "<span id=\"\"><a href=\"/course/courseInfo.jsp?course_id="+this.course.course_id+"\">"+this.course.course_name+"</a></span>";
+                                    }else {
+                                        str = str+ "，" + "<span id=\"\"><a href=\"/course/courseInfo.jsp?course_id="+this.course.course_id+"\">"+this.course.course_name+"</a></span>";
+                                    }
+                                });
+                                $(".member_course").html(str);
+                            }
+                        }
+                    });
                     $(document).attr("title",member.member_name);
                 }
             }

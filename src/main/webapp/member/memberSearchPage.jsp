@@ -73,57 +73,6 @@
                     </tbody>
                 </table>
 
-                <div class="panel-body">
-                    <div class="table_items">
-                        当前第<span class="badge">${curPage}</span>页，共有<span class="badge">${totalPages}</span>页，总记录数<span class="badge">${totalItems}</span>条。
-                    </div>
-                    <nav aria-label="Page navigation" class="pull-right">
-                        <ul class="pagination">
-                            <li><a readonly="readonly"><input name="" id="inputPageNo" value="${curPage}" type="text" size="15" style="width:25px;height:20px;text-align:center;"/></a></li>
-                            <li><a href="#" id="jump_btn">跳转</a></li>
-                            <li><a href="/member/getAllMember?pageNo=1">首页</a></li>
-                            <c:if test="${curPage==1}">
-                                <li class="disabled">
-                                    <a href="#" aria-label="Previous" class="prePage">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                            </c:if>
-                            <c:if test="${curPage!=1}">
-                                <li>
-                                    <a href="#" aria-label="Previous" class="prePage">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                            </c:if>
-
-                            <c:forEach begin="1" end="${totalPages<5?totalPages:5}" step="1" var="itemPage">
-                                <c:if test="${curPage == itemPage}">
-                                    <li class="active"><a href="/member/getAllMember?pageNo=${itemPage}">${itemPage}</a></li>
-                                </c:if>
-                                <c:if test="${curPage != itemPage}">
-                                    <li><a href="/member/getAllMember?pageNo=${itemPage}">${itemPage}</a></li>
-                                </c:if>
-                            </c:forEach>
-
-                            <c:if test="${curPage==totalPages}">
-                                <li class="disabled" class="nextPage">
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </c:if>
-                            <c:if test="${curPage!=totalPages}">
-                                <li>
-                                    <a href="#" aria-label="Next" class="nextPage">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </c:if>
-                            <li><a href="/member/getAllMember?pageNo=${totalPages}">尾页</a></li>
-                        </ul>
-                    </nav>
-                </div>
             </div><!-- /.panel panel-success -->
         </div><!-- /.emp_info -->
 
@@ -138,39 +87,8 @@
 
 
 <script>
-    $("#jump_btn").click(function () {
-        var jump_page = $("#inputPageNo").val();
-        $("#jump_btn").attr("href", "/member/getAllMember?pageNo="+jump_page);
-//       $.ajax({
-//           url:"/member/getAllMember?pageNo="+jump_page,
-//           type:"GET",
-//           success:function (result) {
-//           }
-//       });
-    });
-    $(function () {
-
-        //上一页
-        var curPage = ${curPage};
-        var totalPages = ${totalPages};
-        $(".prePage").click(function () {
-            if (curPage > 1){
-                var pageNo = curPage-1;
-                $(this).attr("href", "/member/getAllMember?pageNo="+pageNo);
-            }
-        });
-        //下一页
-        $(".nextPage").click(function () {
-            if (curPage < totalPages){
-                var pageNo = curPage+1;
-                $(this).attr("href", "/member/getAllMember?pageNo="+pageNo);
-            }
-        });
-    });
-
     <!-- ==========================会员删除操作=================================== -->
     $(".member_page_del_btn").click(function () {
-        var curPage = ${curPage};
         var delMemberId = $(this).parent().parent().find("td:eq(0)").text();
         var delMemberName = $(this).parent().parent().find("td:eq(1)").text();
         if (confirm("确认删除【" + delMemberName+ "】的信息吗？")){
@@ -181,7 +99,6 @@
                 success:function (result) {
                     if (result.code == 100){
                         alert("删除成功！");
-                        window.location.href="/member/getAllMember?pageNo="+curPage;
                     }else {
                         alert(result.extendInfo.member_modal_del_error);
                     }

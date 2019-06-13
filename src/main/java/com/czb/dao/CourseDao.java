@@ -36,6 +36,10 @@ public interface CourseDao {
      * 判断课程id是否存在
      */
     public Course selectCourseById(@Param("course_id") String course_id);
+    /*
+     * 根据教练id查询课程信息
+     */
+    public List<Course> selectCourseByCoach_Id(@Param("coach_id") String coach_id);
     /**
      * 新增课程信息
      */
@@ -48,4 +52,8 @@ public interface CourseDao {
      * 获取课程信息
      */
     public List<Course> selectCourse();
+    /**
+     * 获取课程类别
+     */
+    public List<Course> selectCourseType();
 }

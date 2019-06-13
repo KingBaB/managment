@@ -22,9 +22,13 @@ public interface CourseService {
 
     public Course findCourseById(String course_id) throws Exception;
 
+    public List<Course> findCourseByCoach_Id(String coach_id) throws Exception;
+
     public Integer addCourse(Course course) throws Exception;
 
     public List<Course> getCourse_id() throws Exception;
 
     public List<Course> getCourse() throws Exception;
+
+    public List<Course> getCourseType() throws Exception;
 }

@@ -26,7 +26,7 @@ public class OrdersController {
     private OrdersService ordersService;
 
     @RequestMapping(value = "/getOrdersByMember_id", method = RequestMethod.GET)
-    public ModelAndView getCartByMember_id(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo, String member_id) throws Exception{
+    public ModelAndView getOrdersByMember_id(@RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo, String member_id) throws Exception{
         ModelAndView mav = new ModelAndView("../order/orderPage");
         int limit = 5;
         // 记录的偏移量(即从第offset行记录开始查询)，
@@ -74,6 +74,32 @@ public class OrdersController {
             }
         }else {
             return JsonMsg.fail().addInfo("status", "购买失败1！");
+        }
+    }
+    @RequestMapping(value = "/getOrderListByMember_id", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonMsg getOrderListByMember_id(@RequestParam("member_id") String member_id) throws Exception{
+        List<Orders> ordersList = null;
+        if (!"".equals(member_id)){
+            ordersList = ordersService.findOrdersByMember_Id(member_id);
+        }
+        if (ordersList != null){
+//            System.out.println(course.getPic());
+            return JsonMsg.success().addInfo("ordersList",ordersList);
+        }else {
+            return JsonMsg.fail();
+        }
+    }
+    @RequestMapping(value = "/getOrderList", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonMsg getOrderList() throws Exception{
+        List<Orders> ordersList = null;
+            ordersList = ordersService.findOrderList();
+        if (ordersList != null){
+//            System.out.println(course.getPic());
+            return JsonMsg.success().addInfo("ordersList",ordersList);
+        }else {
+            return JsonMsg.fail();
         }
     }
 }

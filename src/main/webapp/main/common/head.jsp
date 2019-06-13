@@ -59,23 +59,24 @@
                 <%--</ul>--%>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="../images/head/0.png" style="width: 35px; height: 35px;" alt="管理员">&nbsp;&nbsp;崔宗保<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="../images/head/admin_test.jpg" style="width: 35px; height: 35px;" alt="管理员">&nbsp;&nbsp;系统管理员<span class="caret"></span></a>
                         <ul class="dropdown-menu nav nav-pills nav-stacked">
-                            <li class="active"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 修改信息</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 头像更换</a></li>
+                            <li class="active"><a href="#" data-toggle="modal" data-target=".password-update-modal"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 修改密码</a></li>
+                            <%--<li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> 头像更换</a></li>--%>
                             <li><a href="#" class="logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 账号退出</a></li>
                         </ul>
                     </li>
                 </ul>
                 <form class="navbar-form navbar-right">
                     <div class="form-group">
-                        <input type="text" id="search" class="form-control" placeholder="站内搜索">
+                        <input type="text" id="search" class="form-control" placeholder="编号搜索">
                     </div>
-                    <button type="submit" class="btn btn-default">搜索</button>
+                    <a class="btn btn-default" id="search_btn" href="#">搜索</a>
                 </form><!-- /.nav navbar-nav navbar-right -->
             </div><!-- /.navbar-collapse -->
     </nav>
 </div><!-- /.hrms_brand_nav -->
+<%@ include file="/main/user/updatePwd.jsp"%>
 <script type="text/javascript">
     $(function () {
         var logined = '<%= session.getAttribute("logined")%>';

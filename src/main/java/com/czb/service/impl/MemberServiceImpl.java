@@ -61,6 +61,10 @@ public class MemberServiceImpl implements MemberService{
     public Member findMemberById(String member_id) throws Exception {
         return memberDao.selectMemberById(member_id);
     }
+    @Override
+    public List<Member> findMemberByMember_Id(String member_id) throws Exception {
+        return memberDao.selectMemberByMember_Id(member_id);
+    }
     /**
      * 新增会员
      */

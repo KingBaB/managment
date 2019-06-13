@@ -265,4 +265,33 @@ public class MemberController {
         return JsonMsg.success().addInfo("ageCount", member)
                                 .addInfo("other", (totalCount-member.getAge0()-member.getAge1()-member.getAge6()-member.getAge7()-member.getAge8()-member.getAge9()));
     }
+    /*
+     * 会员查询
+     * @param pageNo 查询指定页码包含的数据
+     * @return
+     */
+    @RequestMapping(value = "/getMemberByMember_id", method = RequestMethod.GET)
+    public ModelAndView getMemberByMember_id(@RequestParam("member_id") String member_id) throws Exception{
+        ModelAndView mav = new ModelAndView("../member/memberSearchPage");
+//        int limit = 5;
+        // 记录的偏移量(即从第offset行记录开始查询)，
+        // 如第1页是从第1行(offset=(21-1)*5=0,offset+1=0+1=1)开始查询；
+        // 第2页从第6行(offset=(2-1)*5=5,offset+1=5+1=6)记录开始查询
+//        int offset = (pageNo - 1) * limit;
+        //获取指定页数包含的会员信息
+        List<Member> members = memberService.findMemberByMember_Id(member_id);
+//        //获取总的记录数
+//        int totalItems = memberService.getMemberCount();
+//        //获取总的页数
+//        int temp = totalItems / limit;
+//        int totalPages = (totalItems % limit == 0) ? temp : temp+1;
+        //当前页数
+//        int curPage = pageNo;
+        //将上述查询结果放在Model中，在JSP页面进行展示
+        mav.addObject("members", members);
+//                .addObject("totalItems", totalItems)
+//                .addObject("totalPages", totalPages)
+//                .addObject("curPage", curPage);
+        return mav;
+    }
 }

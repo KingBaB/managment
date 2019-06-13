@@ -61,6 +61,13 @@ public class CourseServiceImpl implements CourseService{
     public Course findCourseById(String course_id) throws Exception {
         return courseDao.selectCourseById(course_id);
     }
+    /*
+     * 根据教练id查询课程
+     */
+    @Override
+    public List<Course> findCourseByCoach_Id(String coach_id) throws Exception {
+        return courseDao.selectCourseByCoach_Id(coach_id);
+    }
     /**
      * 新增课程
      */
@@ -86,5 +93,9 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public List<Course> getCourse() throws Exception {
         return courseDao.selectCourse();
+    }
+    @Override
+    public List<Course> getCourseType() throws Exception {
+        return courseDao.selectCourseType();
     }
 }

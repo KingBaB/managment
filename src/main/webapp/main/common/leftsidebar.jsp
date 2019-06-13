@@ -54,7 +54,7 @@
                 <li role="presentation" class="dropdown-header"><a href="#" class="equipment_info">设备信息</a></li>
                 <li role="presentation" class="dropdown-header"><a href="#" class="equipment_add_btn" data-toggle="modal" data-target=".equipment-add-modal">设备新增</a></li>
                 <li role="presentation" class="dropdown-header"><a href="#" class="equipment_del_btn" data-toggle="modal" data-target=".equipment-del-modal">设备删除</a></li>
-                <li role="presentation" class="dropdown-header"><a href="#" class="equipment_total_btn">设备统计</a></li>
+                <%--<li role="presentation" class="dropdown-header"><a href="#" class="equipment_total_btn">设备统计</a></li>--%>
             </ul>
         </li>
     </ul>
@@ -67,7 +67,7 @@
                 <li role="presentation" class="dropdown-header"><a href="#" class="gym_info">健身房信息</a></li>
                 <li role="presentation" class="dropdown-header"><a href="#" class="gym_add_btn" data-toggle="modal" data-target=".gym-add-modal">健身房新增</a></li>
                 <li role="presentation" class="dropdown-header"><a href="#" class="gym_del_btn" data-toggle="modal" data-target=".gym-del-modal">健身房删除</a></li>
-                <li role="presentation" class="dropdown-header"><a href="#" class="gym_total_btn">健身房统计</a></li>
+                <%--<li role="presentation" class="dropdown-header"><a href="#" class="gym_total_btn">健身房统计</a></li>--%>
             </ul>
         </li>
     </ul>
@@ -125,17 +125,9 @@
     $(".coach_total_btn").click(function () {
         $(this).attr("href", "/coach/coachStatistics.jsp");
     });
-    //跳转到部门页面
-    $(".dept_info").click(function () {
-        $(this).attr("href", "/hrms/dept/getDeptList");
-    });
-    //员工清零这个功能暂未实现
-    $(".emp_clearall_btn").click(function () {
-        alert("对不起，您暂无权限进行操作！请先获取权限");
-    });
-    //部门清零这个功能暂未实现
-    $(".dept_clearall_btn").click(function () {
-        alert("对不起，您暂无权限进行操作！请先获取权限");
+    //跳转到教练统计页面
+    $(".course_total_btn").click(function () {
+        $(this).attr("href", "/course/courseStatistics.jsp");
     });
     $(document).ready(function() {
         var url = window.location.href;
