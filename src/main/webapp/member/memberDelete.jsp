@@ -54,6 +54,14 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="del_memberPic" class="col-sm-2 control-label">会员图片</label>
+                        <div class="col-sm-8">
+                            <img src="" id="del_memberPic" style="width: 50px;height: 50px;">
+                            <%--<input type="date" name="pic" readonly="readonly" class="form-control" id="del_memberPic" placeholder="如：12345678900">--%>
+                            <span id="helpBlock_del_memberPic" class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="del_memberPhone" class="col-sm-2 control-label">联系方式</label>
                         <div class="col-sm-8">
                             <input type="email" name="phone" readonly="readonly" class="form-control" id="del_memberPhone">
@@ -131,6 +139,7 @@
                     $("#del_memberName").val(member.member_name);
                     $("#del_memberSex").val(member.sex == "F" ? "女" : "男" );
                     $("#del_memberBirthday").val(member.birthday);
+                    $("#del_memberPic").attr("src",member.pic);
                     $("#del_memberPhone").val(member.phone);
                     $("#del_memberEmail").val(member.email);
                     $("#del_memberAddress").val(member.address);
@@ -140,6 +149,7 @@
                     $("#del_memberName").val("");
                     $("#del_memberSex").val("");
                     $("#del_memberBirthday").val("");
+                    $("#del_memberPic").attr("src","");
                     $("#del_memberPhone").val("");
                     $("#del_memberEmail").val("");
                     $("#del_memberAddress").val("");

@@ -55,6 +55,14 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="del_coachPic" class="col-sm-2 control-label">教练图片</label>
+                        <div class="col-sm-8">
+                            <img src="" id="del_coachPic" style="width: 50px;height: 50px;">
+                            <%--<input type="date" name="pic" readonly="readonly" class="form-control" id="del_memberPic" placeholder="如：12345678900">--%>
+                            <span id="helpBlock_del_coachPic" class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="del_coachPhone" class="col-sm-2 control-label">联系方式</label>
                         <div class="col-sm-8">
                             <input type="email" name="phone" readonly="readonly" class="form-control" id="del_coachPhone">
@@ -130,6 +138,7 @@
                     $("#del_coachName").val(coach.coach_name);
                     $("#del_coachSex").val(coach.sex == "F" ? "女" : "男" );
                     $("#del_coachBirthday").val(coach.birthday);
+                    $("#del_coachPic").attr("src",coach.pic);
                     $("#del_coachPhone").val(coach.phone);
                     $("#del_coachEmail").val(coach.email);
                     $("#del_coachAddress").val(coach.address);
@@ -139,6 +148,7 @@
                     $("#del_coachName").val("");
                     $("#del_coachSex").val("");
                     $("#del_coachBirthday").val("");
+                    $("#del_coachPic").attr("src");
                     $("#del_coachPhone").val("");
                     $("#del_coachEmail").val("");
                     $("#del_coachAddress").val("");

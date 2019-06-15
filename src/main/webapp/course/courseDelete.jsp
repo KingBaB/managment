@@ -55,6 +55,14 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="del_coursePic" class="col-sm-2 control-label">课程图片</label>
+                        <div class="col-sm-8">
+                            <img src="" id="del_coursePic" style="width: 50px;height: 50px;">
+                            <%--<input type="date" name="pic" readonly="readonly" class="form-control" id="del_memberPic" placeholder="如：12345678900">--%>
+                            <span id="helpBlock_del_coursePic" class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="del_coursePrice" class="col-sm-2 control-label">价格</label>
                         <div class="col-sm-8">
                             <input type="text" name="price" readonly="readonly" class="form-control" id="del_coursePrice">
@@ -123,6 +131,7 @@
                     $("#del_courseName").val(course.course_name);
                     $("#del_courseCoach").val(course.coach.coach_name);
                     $("#del_courseType").val(course.type);
+                    $("#del_coursePic").attr("src",course.pic);
                     $("#del_coursePrice").val(course.price);
                     $("#del_courseCreate").val(course.create_date);
                     $("#del_courseUpdate").val(course.update_date);
@@ -131,6 +140,7 @@
                     $("#del_courseName").val("");
                     $("#del_courseCoach").val("");
                     $("#del_courseType").val("");
+                    $("#del_coursePic").attr("src","");
                     $("#del_coursePrice").val("");
                     $("#del_courseCreate").val("");
                     $("#del_courseUpdate").val("");
